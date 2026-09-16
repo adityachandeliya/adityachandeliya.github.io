@@ -36,18 +36,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Active section highlighting in nav
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    const spy = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    navLinks.forEach((l) =>
-                        l.classList.toggle('active', l.getAttribute('href') === `#${id}`)
-                    );
-                }
-            });
-        },
-        { rootMargin: '-45% 0px -50% 0px' }
-    );
-    sections.forEach((s) => spy.observe(s));
+    if ('IntersectionObserver' in window) {
+        const spy = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach((l) =>
+                            l.classList.toggle('active', l.getAttribute('href') === `#${id}`)
+                        );
+                    }
+                });
+            },
+            { rootMargin: '-45% 0px -50% 0px' }
+        );
+        sections.forEach((s) => spy.observe(s));
+    }
 });
